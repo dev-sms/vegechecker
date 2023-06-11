@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.zxing.client.android.Intents;
@@ -29,13 +30,13 @@ public class MainActivity extends AppCompatActivity {
     String scannedPrdlst_nm;
     String scannedProduct;
     String scannedRawMaterial;
-    Button scanButton;
+    ImageButton scanButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        scanButton = (Button) findViewById(R.id.scanBtn);
+        scanButton = (ImageButton) findViewById(R.id.scanBtn);
 
         scanButton.setOnClickListener(v -> {
             mStartForResult.launch(new Intent(getApplicationContext(), ScanBarcodeActivity.class));
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent intent = result.getData();
                         scannedBarcode = intent.getStringExtra("barcode");
-                        Log.d("MainActivity", "barcode scanned clear" + scannedBarcode);
+                        Log.d("scantest", "barcode scanned clear " + scannedBarcode);
                         mSearchProduct.launch(new Intent(getApplicationContext(), SearchProduct.class).putExtra("barcode", scannedBarcode));
                     }
                 }
@@ -64,8 +65,11 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = result.getData();
                         scannedProduct = intent.getStringExtra("product");
                         scannedPrdlst_nm = intent.getStringExtra("prdlst_nm");
-                        Log.d("MainActivity", scannedProduct);
-                        mGetRawMaterial.launch(new Intent(getApplicationContext(), GetRawMaterialActivity.class).putExtra("prdlst_nm", scannedPrdlst_nm));
+                        Log.d("scantest", scannedProduct);
+                        mGetRawMaterial.launch(new Intent(getApplicationContext(), GetRawMaterialActivity.class).putExtra("product", scannedProduct));
+                    }
+                    else if(result.getResultCode() == Activity.RESULT_CANCELED){
+                        Toast.makeText(getApplicationContext(), "Scan Failed", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -77,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent intent = result.getData();
                         scannedRawMaterial = intent.getStringExtra("material");
-                        Log.d("GetRawMaterialActivity", scannedRawMaterial);
+                        Log.d("scantest", scannedRawMaterial);
                         MaterialItem items = new MaterialItem(scannedRawMaterial, scannedProduct, false);
                         mFilteringMaterialActivity.launch(new Intent(getApplicationContext(), FilteringMaterialActivity.class).putExtra("items", items));
                     }
@@ -90,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent intent = result.getData();
-                        Log.d("mFilteringMaterialActivity", intent.getStringExtra("result"));
+                        Log.d("scantest", intent.getStringExtra("result"));
                     }
                 }
             });

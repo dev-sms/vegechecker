@@ -25,14 +25,14 @@ public class ScanBarcodeActivity extends AppCompatActivity {
                 if(result.getContents() == null) {
                     Intent originalIntent = result.getOriginalIntent();
                     if (originalIntent == null) {
-                        Log.d("MainActivity", "Cancelled scan");
+                        Log.d("scantest", "Cancelled scan");
                         Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
                     } else if(originalIntent.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION)) {
-                        Log.d("MainActivity", "Cancelled scan due to missing camera permission");
+                        Log.d("scantest", "Cancelled scan due to missing camera permission");
                         Toast.makeText(this, "Cancelled due to missing camera permission", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Log.d("MainActivity", "Scanned");
+                    Log.d("scantest", "Scanned");
                     Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
 
                     Intent intent = new Intent();

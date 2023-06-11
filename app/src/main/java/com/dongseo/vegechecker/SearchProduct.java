@@ -18,6 +18,7 @@ public class SearchProduct extends AppCompatActivity {
 
     String barcodeData;
     String prdlst_nm;
+    String prdlstNm;
     LoadingDialog loadingDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,11 +37,15 @@ public class SearchProduct extends AppCompatActivity {
                     }
                 });
                 barcodeData = getBarcodeData();
-                Log.d("SearchProduct", barcodeData);
+                Log.d("scantest", barcodeData);
                 Intent intent = new Intent();
-                intent.putExtra("product", barcodeData);
+                intent.putExtra("product", prdlstNm);
                 intent.putExtra("prdlst_nm", prdlst_nm);
-                setResult(RESULT_OK, intent);
+                if (barcodeData.equals("")){
+                    setResult(RESULT_CANCELED);
+                }
+                else
+                    setResult(RESULT_OK, intent);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -85,6 +90,7 @@ public class SearchProduct extends AppCompatActivity {
                     }
                     else if (tag.equals("PRDT_NM")){
                         xpp.next();
+                        prdlstNm = xpp.getText();
                         buffer.append("제품명 : " + xpp.getText());
                         buffer.append("\n\n");
                     }

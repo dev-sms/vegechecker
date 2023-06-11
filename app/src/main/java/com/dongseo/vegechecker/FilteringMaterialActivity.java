@@ -41,7 +41,12 @@ public class FilteringMaterialActivity extends AppCompatActivity {
 
         mMaterialItems = new ArrayList<>();
         aMaterialItems = new ArrayList<>();
-        setMaterials();
+        try {
+            setMaterials();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -61,16 +66,15 @@ public class FilteringMaterialActivity extends AppCompatActivity {
         String[] arr = rawItem.split("알러지 : ");
         material = arr[0];
         allergy = arr[1];
+
         materials = splitMaterial(material);
         allergys = splitMaterial(allergy);
-        //materials = material.split(",");
-        //allergys = allergy.split(",");
 
         for(int i=0;i<materials.length;i++){
-            mMaterialItems.add(new MaterialItem(materials[i], items.productName, checkMeat(materials[i])));
+            mMaterialItems.add(new MaterialItem(Integer.toString(i+1) + ". " + materials[i], items.productName, checkMeat(materials[i])));
         }
         for(int i=0;i<allergys.length;i++){
-            aMaterialItems.add(new MaterialItem(allergys[i], items.productName, false));
+            aMaterialItems.add(new MaterialItem(Integer.toString(i+1) + ". " + allergys[i], items.productName, false));
         }
 
         mRecyclerAdapter.setMaterialItems(mMaterialItems);
@@ -89,7 +93,7 @@ public class FilteringMaterialActivity extends AppCompatActivity {
     private boolean checkMeat(String item){
         for (int checkI = 0; checkI < meatList.length; checkI++){
             if (item.contains(meatList[checkI])){
-                Log.d("FilteringMaterialActivity", item + " " + meatList[checkI]);
+                Log.d("scantest", item + " " + meatList[checkI]);
                 return true;
             }
         }

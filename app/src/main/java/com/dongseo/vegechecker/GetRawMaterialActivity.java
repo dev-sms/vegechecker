@@ -35,7 +35,7 @@ public class GetRawMaterialActivity extends AppCompatActivity {
                     }
                 });
                 materialData = getMaterialData();
-                Log.d("GetRawMaterialActivity", materialData);
+                Log.d("scantest", materialData);
                 Intent intent = new Intent();
                 intent.putExtra("material", materialData);
                 setResult(RESULT_OK, intent);
@@ -54,13 +54,15 @@ public class GetRawMaterialActivity extends AppCompatActivity {
         String prdlst_nm;
         String serviceKey;
 
-        prdlst_nm = getIntent().getStringExtra("prdlst_nm");
+        prdlst_nm = getIntent().getStringExtra("product");
+        prdlst_nm = filterSearch(prdlst_nm);
         serviceKey = BuildConfig.HACCP_API_KEY;
 
         StringBuffer buffer = new StringBuffer();
 
-        String queryUrl = "http://apis.data.go.kr/B553748/CertImgListService/getCertImgListService?ServiceKey=" + serviceKey + "&prdlstReportNo=" + prdlst_nm + "&pageNo=1";
+        String queryUrl = "http://apis.data.go.kr/B553748/CertImgListService/getCertImgListService?ServiceKey=" + serviceKey + "&prdlstNm=" + prdlst_nm + "&numOfRows=1";
 
+        Log.d("scantest", queryUrl);
         try {
             URL url = new URL(queryUrl);
             InputStream is = url.openStream();
@@ -92,5 +94,10 @@ public class GetRawMaterialActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return buffer.toString(); // 문자열 객체 반환
+    }
+
+    private String filterSearch(String prdlstnm){
+        String[] temp = prdlstnm.split(" ");
+        return temp[1];
     }
 }
