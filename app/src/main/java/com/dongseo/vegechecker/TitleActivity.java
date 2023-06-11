@@ -10,7 +10,7 @@ public class TitleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        moveMain(1);
+        moveMain(3);
     }
 
     private void moveMain(int sec) {
